@@ -1,6 +1,6 @@
 package ro.mindit.training.algorithms;
 
-import ro.mindit.training.algorithms.sort.SelectionSort;
+import ro.mindit.training.algorithms.sort.BubbleSort;
 import ro.mindit.training.algorithms.sort.SortingAlgorithm;
 import ro.mindit.training.algorithms.sort.constants.SortingOrder;
 
@@ -15,7 +15,7 @@ public class AlgorithmRunner {
 
     public static void main(String[] args) {
 
-        SortingAlgorithm sortingAlgorithm = new SelectionSort();
+        SortingAlgorithm sortingAlgorithm = new BubbleSort();
 
         sortingAlgorithm.sort(unsorted(), SortingOrder.ASCENDING);
         sortingAlgorithm.sort(sortedAscending(), SortingOrder.ASCENDING);

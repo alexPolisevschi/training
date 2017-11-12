@@ -55,8 +55,4 @@ public class InsertionSort implements SortingAlgorithm {
         System.out.println("Sorted the array using " + numberOfOperations + " operations. Result: " + Arrays.toString(array));
     }
 
-
-
-
-
 }

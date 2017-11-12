@@ -21,8 +21,10 @@ import static ro.mindit.training.algorithms.sort.constants.SortingOrder.DESCENDI
  *
  * Complexity: O(n^2)
  *
- * Insertion sort's advantage is that it only scans as many elements as it needs in order to place the k + 1st element,
- * while selection sort must scan all remaining elements to find the k + 1st element.
+ * Insertion Sort's advantage is that it only scans as many elements as it needs in order to place the k + 1st element,
+ * while Selection Sort must scan all remaining elements to find the k + 1st element.
+ *
+ * Selection Sort has fewer number of writes (swaps) than Insertion Sort. Useful when write is expensive.
  */
 public class SelectionSort implements SortingAlgorithm {
 
@@ -33,24 +35,24 @@ public class SelectionSort implements SortingAlgorithm {
 
         recursiveFindAndSwap(array, 0, sortingOrder, counter);
 
-        System.out.println("Completed selective sort using " + counter.getCount() + " operations. Output: " + Arrays.toString(array));
+        System.out.println("Completed Selection Sort using " + counter.getCount() + " operations. Output: " + Arrays.toString(array));
     }
 
-    private void recursiveFindAndSwap(Integer[] array, int index, SortingOrder sortingOrder, Counter counter) {
-        if (index == array.length - 1) {
+    private void recursiveFindAndSwap(Integer[] array, int startIndex, SortingOrder sortingOrder, Counter counter) {
+        if (startIndex == array.length - 1) {
             // Exit condition.
             // Since the last element is already in place, the loop stops at [n-1]
             return;
         }
 
-        int indexOfElementToSwap = findElementToSwap(array, index, sortingOrder, counter);
+        int indexOfElementToSwap = findElementToSwap(array, startIndex, sortingOrder, counter);
 
-        if (index != indexOfElementToSwap) {
-            swapElementsInArray(array, index, indexOfElementToSwap, counter);
+        if (startIndex != indexOfElementToSwap) {
+            swapElementsInArray(array, startIndex, indexOfElementToSwap, counter);
         }
-        System.out.println("-- swapped (index " + index + "): " + Arrays.toString(array));
+        System.out.println("-- swapped (index " + startIndex + "): " + Arrays.toString(array));
 
-        recursiveFindAndSwap(array, index + 1, sortingOrder, counter);
+        recursiveFindAndSwap(array, startIndex + 1, sortingOrder, counter);
     }
 
     /**
@@ -70,13 +72,5 @@ public class SelectionSort implements SortingAlgorithm {
             }
         }
         return indexOfElementToSwap;
-    }
-
-    private void swapElementsInArray(Integer[] array, int x, int y, Counter counter) {
-        int elementAtIndex = array[x];
-        array[x] = array[y];
-        array[y] = elementAtIndex;
-
-        counter.increment();
     }
 }
