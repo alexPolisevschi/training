@@ -25,16 +25,16 @@ public class BubbleSort implements SortingAlgorithm {
         System.out.println("\nInput: " + Arrays.toString(array));
         Counter counter = new Counter();
 
-        iterateAndSwap(array, sortingOrder, counter);
+        iterateAndSwap(array, (array.length -1), sortingOrder, counter);
 
         System.out.println("Completed Bubble Sort using " + counter.getCount() + " operations. Output: " + Arrays.toString(array));
     }
 
-    private void iterateAndSwap(Integer[] array, SortingOrder sortingOrder, Counter counter) {
+    private void iterateAndSwap(Integer[] array, int upperLimit, SortingOrder sortingOrder, Counter counter) {
         int numberOfSwaps = 0;
         System.out.println("-- new loop");
 
-        for (int i = 0; i < array.length - 1; i++) {
+        for (int i = 0; i < upperLimit; i++) {
             counter.increment();
 
             if ( (ASCENDING.equals(sortingOrder) && array[i+1] < array[i]) ||
@@ -49,7 +49,8 @@ public class BubbleSort implements SortingAlgorithm {
 
         // Exit condition: if no swaps were performed, the array is sorted.
         if (numberOfSwaps > 0) {
-            iterateAndSwap(array, sortingOrder, counter);
+            // decrease the upper limit (in each iteration, the highest element reaches the right-most side)
+            iterateAndSwap(array, upperLimit -1, sortingOrder, counter);
         }
     }
 }
