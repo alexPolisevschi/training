@@ -1,7 +1,8 @@
 package ro.mindit.training.algorithms;
 
-import ro.mindit.training.algorithms.sort.InsertionSort;
+import ro.mindit.training.algorithms.sort.SelectionSort;
 import ro.mindit.training.algorithms.sort.SortingAlgorithm;
+import ro.mindit.training.algorithms.sort.constants.SortingOrder;
 
 /**
  * A logarithm is the power to which a number must be raised in order to get some other number.
@@ -14,11 +15,15 @@ public class AlgorithmRunner {
 
     public static void main(String[] args) {
 
-        SortingAlgorithm sortingAlgorithm = new InsertionSort();
+        SortingAlgorithm sortingAlgorithm = new SelectionSort();
 
-        sortingAlgorithm.sort(unsorted());
-        sortingAlgorithm.sort(sortedAscending());
-        sortingAlgorithm.sort(sortedDescending());
+        sortingAlgorithm.sort(unsorted(), SortingOrder.ASCENDING);
+        sortingAlgorithm.sort(sortedAscending(), SortingOrder.ASCENDING);
+        sortingAlgorithm.sort(sortedDescending(), SortingOrder.ASCENDING);
+
+//        sortingAlgorithm.sort(unsorted(), SortingOrder.DESCENDING);
+//        sortingAlgorithm.sort(sortedAscending(), SortingOrder.DESCENDING);
+//        sortingAlgorithm.sort(sortedDescending(), SortingOrder.DESCENDING);
     }
 
 

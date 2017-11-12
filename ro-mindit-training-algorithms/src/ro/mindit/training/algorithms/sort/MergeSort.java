@@ -1,5 +1,7 @@
 package ro.mindit.training.algorithms.sort;
 
+import ro.mindit.training.algorithms.sort.constants.SortingOrder;
+
 /**
  * Complexity: c2 * (n * lg n)
  *
@@ -9,7 +11,7 @@ public class MergeSort implements SortingAlgorithm {
 
 
     @Override
-    public void sort(Integer[] array) {
+    public void sort(Integer[] array, SortingOrder sortingOrder) {
         //
     }
 }

@@ -3,9 +3,6 @@ package ro.mindit.training.algorithms.sort;
 import ro.mindit.training.algorithms.sort.constants.SortingOrder;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 import static ro.mindit.training.algorithms.sort.constants.SortingOrder.ASCENDING;
 import static ro.mindit.training.algorithms.sort.constants.SortingOrder.DESCENDING;
@@ -27,26 +24,31 @@ import static ro.mindit.training.algorithms.sort.constants.SortingOrder.DESCENDI
 public class InsertionSort implements SortingAlgorithm {
 
     @Override
-    public void sort(Integer[] array) {
+    public void sort(Integer[] array, SortingOrder sortingOrder) {
         System.out.println("\nInput: " + Arrays.toString(array));
         int numberOfOperations = 0;
 
-        for (int i = 1; i < array.length; i++) {
+        // the first element stays in place, start the algorithm with the second
+        for (int j = 1; j < array.length; j++) {
             numberOfOperations++;
-            int elementToMove = array[i];
+            int elementToMove = array[j];
 
-            // shift all elements to the right, starting from the most right one!
-            int j = i - 1;
-            while (j >= 0 && array[j] > elementToMove) {
-                array[j + 1] = array[j];
-                j--;
+            /* Loop through all the elements before the current one: A[1... j-1]
+             * - start from the previous element (at [j-1] position) - if it's higher, shift it one position to the right
+             * - continue until you find an element that is higher than elementToMove, or until you reach the beginning of the array
+             */
+            int i = j - 1;
+            while (i >= 0 && ( (array[i] > elementToMove && ASCENDING.equals(sortingOrder))
+                                || (array[i] < elementToMove && DESCENDING.equals(sortingOrder)))) {
+                array[i + 1] = array[i];
+                i--;
 
                 numberOfOperations++;
                 System.out.println("-- intermediate: " + Arrays.toString(array));
             }
 
-            // add the element in the new spot
-            array[j + 1] = elementToMove;
+            // put the elementToMove in it's new position (i + 1 because the previous loop does i--)
+            array[i + 1] = elementToMove;
             System.out.println("-- intermediate: " + Arrays.toString(array));
         }
 
@@ -55,94 +57,6 @@ public class InsertionSort implements SortingAlgorithm {
 
 
 
-    /**
-     * Wrote these before reading the solution for the algorithm.
-     * The is not an efficient way!
-     *
-     * Sorts in place a list of elements.
-     */
-    public <E extends Comparable<E>> void sort(List<E> list, SortingOrder sortingOrder) {
-        System.out.println("\nInput:" + list);
-        int numberOfOperations = 0;
 
-        // the first element stays in place, start the algorithm with the second
-        for (int i = 1; i < list.size(); i++) {
-            numberOfOperations++;
-            numberOfOperations += compareAndMoveElement(list, i, sortingOrder);
-            System.out.println("\t position (" + i + "): " + list + ". Number of operations: " + numberOfOperations);
-        }
-    }
-
-    /**
-     * Compare the element at the indicated position with all the elements before it, knowing that all elements before
-     * it are sorted in order.
-     * When iterating, if an element is found that is higher/lower than the position-element, move the position-element
-     * before it. Otherwise, nothing happens (the position-element stays in place).
-     */
-    private <E extends Comparable<E>> int compareAndMoveElement(List<E> list, int position, SortingOrder sortingOrder) {
-        int numberOfOperations = 0;
-
-        E elementToMove = list.get(position);
-
-        for (int i = 0; i < position; i++) {
-            numberOfOperations++;
-
-            E current = list.get(i);
-            if ( (ASCENDING.equals(sortingOrder) && elementToMove.compareTo(current) < 0)
-                    || DESCENDING.equals(sortingOrder) && elementToMove.compareTo(current) > 0) {
-
-                list.remove(position);  // shifts all to the left
-                numberOfOperations += list.size() - position + 1;
-
-                list.add(i, elementToMove); // shifts all to the right
-                numberOfOperations += position;
-
-                break;
-            }
-        }
-        return numberOfOperations;
-    }
-
-
-
-     /** Sorts a collection of comparable elements;
-     * @return a list containing all the elements of the original collection, sorted.
-     *
-     * Input: A sequence of n numbers a1, a2, ... an
-     * Output: A permutation (reordering) b1, b2, ... b2 of the input sequence, such that b1 <= b2 <= ... <= bn
-     */
-    public <E extends Comparable<E>> List<E> computeSortedList(Collection<E> collectionToSort) {
-        final int[] count = {0};
-
-        List<E> sortedList = new LinkedList<>();
-        collectionToSort.forEach(element -> {
-            count[0] = count[0] + insertInOrder(sortedList, element);
-        });
-
-        System.out.println("Created a new, sorted, list using " + count[0] + " operations");
-        return sortedList;
-    }
-
-    private <E extends Comparable<E>> int insertInOrder(List<E> sortedList, E newElement) {
-        int numberOfOperations = 1;
-
-        if (sortedList.isEmpty()) {
-            sortedList.add(newElement);
-            return numberOfOperations;
-        }
-
-        for (int i = 0; i < sortedList.size(); i++) {
-            numberOfOperations++;
-            E current = sortedList.get(i);
-
-            if (newElement.compareTo(current) < 0) {
-                sortedList.add(i, newElement);
-                return numberOfOperations;
-            }
-        }
-
-        sortedList.add(newElement);
-        return numberOfOperations;
-    }
 
 }
