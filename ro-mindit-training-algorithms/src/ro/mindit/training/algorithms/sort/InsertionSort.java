@@ -2,6 +2,7 @@ package ro.mindit.training.algorithms.sort;
 
 import ro.mindit.training.algorithms.sort.constants.SortingOrder;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +27,40 @@ import static ro.mindit.training.algorithms.sort.constants.SortingOrder.DESCENDI
 public class InsertionSort implements SortingAlgorithm {
 
     @Override
+    public void sort(Integer[] array) {
+        System.out.println("\nInput: " + Arrays.toString(array));
+        int numberOfOperations = 0;
+
+        for (int i = 1; i < array.length; i++) {
+            numberOfOperations++;
+            int elementToMove = array[i];
+
+            // shift all elements to the right, starting from the most right one!
+            int j = i - 1;
+            while (j >= 0 && array[j] > elementToMove) {
+                array[j + 1] = array[j];
+                j--;
+
+                numberOfOperations++;
+                System.out.println("-- intermediate: " + Arrays.toString(array));
+            }
+
+            // add the element in the new spot
+            array[j + 1] = elementToMove;
+            System.out.println("-- intermediate: " + Arrays.toString(array));
+        }
+
+        System.out.println("Sorted the array using " + numberOfOperations + " operations. Result: " + Arrays.toString(array));
+    }
+
+
+
+    /**
+     * Wrote these before reading the solution for the algorithm.
+     * The is not an efficient way!
+     *
+     * Sorts in place a list of elements.
+     */
     public <E extends Comparable<E>> void sort(List<E> list, SortingOrder sortingOrder) {
         System.out.println("\nInput:" + list);
         int numberOfOperations = 0;
@@ -56,8 +91,12 @@ public class InsertionSort implements SortingAlgorithm {
             if ( (ASCENDING.equals(sortingOrder) && elementToMove.compareTo(current) < 0)
                     || DESCENDING.equals(sortingOrder) && elementToMove.compareTo(current) > 0) {
 
-                list.remove(position);
-                list.add(i, elementToMove);
+                list.remove(position);  // shifts all to the left
+                numberOfOperations += list.size() - position + 1;
+
+                list.add(i, elementToMove); // shifts all to the right
+                numberOfOperations += position;
+
                 break;
             }
         }
@@ -65,7 +104,13 @@ public class InsertionSort implements SortingAlgorithm {
     }
 
 
-    @Override
+
+     /** Sorts a collection of comparable elements;
+     * @return a list containing all the elements of the original collection, sorted.
+     *
+     * Input: A sequence of n numbers a1, a2, ... an
+     * Output: A permutation (reordering) b1, b2, ... b2 of the input sequence, such that b1 <= b2 <= ... <= bn
+     */
     public <E extends Comparable<E>> List<E> computeSortedList(Collection<E> collectionToSort) {
         final int[] count = {0};
 
